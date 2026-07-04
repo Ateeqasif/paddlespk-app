@@ -1,0 +1,39 @@
+{
+  "expo": {
+    "name": "PaddlesPK",
+    "slug": "paddlespk",
+    "scheme": "paddlespk",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "dark",
+    "backgroundColor": "#1B2B4C",
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#1B2B4C"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.paddlespk.app"
+    },
+    "android": {
+      "package": "com.paddlespk.app",
+      "adaptiveIcon": {
+        "backgroundColor": "#1B2B4C",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundImage": "./assets/android-icon-background.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      },
+      "predictiveBackGestureEnabled": false
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": ["expo-router"],
+    "extra": {
+      "supabaseUrl": "https://hqhxzvjwospfxalkvspn.supabase.co",
+      "supabaseAnonKey": "sb_publishable_ons8CZi3ARztQZASuIPVbg_kkagTCl9"
+    }
+  }
+}
