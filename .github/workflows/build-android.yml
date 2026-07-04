@@ -1,0 +1,53 @@
+name: Build Android APK
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths-ignore:
+      - '**.md'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate native Android project
+        run: npx expo prebuild --platform android --no-install
+
+      - name: Build release APK
+        run: cd android && ./gradlew assembleRelease --no-daemon
+
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: PaddlesPK-apk
+          path: android/app/build/outputs/apk/release/app-release.apk
+
+      - name: Publish APK to GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          cp android/app/build/outputs/apk/release/app-release.apk PaddlesPK.apk
+          gh release create apk-latest \
+            --title "PaddlesPK Android APK (latest)" \
+            --notes "Latest Android build from the main branch. Download PaddlesPK.apk below and install it on your device (allow installs from unknown sources)." \
+            --prerelease || true
+          gh release upload apk-latest PaddlesPK.apk --clobber
